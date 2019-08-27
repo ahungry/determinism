@@ -6,6 +6,7 @@
   :dependencies [
                  ;; Language related
                  [org.clojure/clojure "1.10.0"]
+                 [clojure.java-time "0.3.2"]
 
                  ;; Database related
                  [org.clojure/java.jdbc "0.3.5"]

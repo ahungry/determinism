@@ -1,6 +1,7 @@
 (ns determinism.core
   (:require
    [clojure.tools.logging :as log]
+   [determinism.dao :as dao]
    )
   (:gen-class))
 

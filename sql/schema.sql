@@ -8,7 +8,7 @@ BEGIN;
 -- each node requiring an extra column.
 
 CREATE TABLE det (
-    identity PRIMARY KEY
+    identity
   , input
   , output
   , date
