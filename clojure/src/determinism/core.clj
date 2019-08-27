@@ -9,7 +9,7 @@
 (defn record-flush
   "Dump the records to some storage."
   []
-  (log/info @*proxy-records))
+  (doall (map (fn [m] (log/info m)) @*proxy-records)))
 
 (defn proxy-fn
   "Wrap I/O monitoring around a given function."
@@ -24,14 +24,14 @@
 
 (defn add-1 [n] (+ 1 n))
 (def add-1 (proxy-fn add-1))
-(map add-1 (range 2))
+(doall (map add-1 (range 2)))
 
 (defn summer [{:keys [x y]}] (+ x y))
 (def summer (proxy-fn summer))
 
-(map summer [{:x 1 :y 2} {:x 3 :y 4}])
+(doall (map summer [{:x 1 :y 2} {:x 3 :y 4}]))
 
-;; (identity (last @*proxy-records))
+(record-flush)
 
 ;; (->> (all-ns) (mapcat ns-publics) (rand-nth) key)
 
