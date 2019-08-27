@@ -13,11 +13,13 @@ the output the function generated.
 Given some functions defined as such:
 
 ```clojure
-(defn add-1 [n] (+ 1 n))
-(map add-1 (range 2))
-
-(defn summer [{:keys [x y]}] (+ x y))
-(map summer [{:x 1 :y 2} {:x 3 :y 4}])
+(defn javascript-like-plus
+  "Given an X and Y, join strings or add them."
+  [x y]
+  (if (or (string? x)
+          (string? y))
+    (str x y)
+    (+ x y)))
 ```
 
 You will be able to review the results of code execution in a format
