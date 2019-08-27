@@ -23,23 +23,16 @@ Given some functions defined as such:
 You will be able to review the results of code execution in a format
 such as:
 
-```clojure
-[{:identity #<Fn@74a23675 determinism.core/add_1>,
-  :input (0),
-  :input-types (#<Class@649d209a java.lang.Long>),
-  :output 1}
- {:identity #<Fn@74a23675 determinism.core/add_1>,
-  :input (1),
-  :input-types (#<Class@649d209a java.lang.Long>),
-  :output 2}
- {:identity #<Fn@2391f319 determinism.core/summer>,
-  :input ({:x 1, :y 2}),
-  :input-types (#<Class@1d251891 clojure.lang.PersistentArrayMap>),
-  :output 3}
- {:identity #<Fn@2391f319 determinism.core/summer>,
-  :input ({:x 3, :y 4}),
-  :input-types (#<Class@1d251891 clojure.lang.PersistentArrayMap>),
-  :output 7}]
+```sh
+echo -e '.headers on\n.mode column\n.width 40 20 20 30\nselect * from det;' | sqlite3 determinism.db
+identity                                  input                 output                date
+----------------------------------------  --------------------  --------------------  ------------------------------
+hello_world                                                     Hello World           2019-01-01 12:00:00
+bye_world                                                       Goodbye World         2019-01-01 12:00:00
+determinism.core$add_1@71e0e636           [0]                   1                     2019-08-27T00:32:58.063620
+determinism.core$add_1@71e0e636           [1]                   2                     2019-08-27T00:32:58.076790
+determinism.core$summer@419ddc74          [{"x":1,"y":2}]       3                     2019-08-27T00:32:58.092482
+determinism.core$summer@419ddc74          [{"x":3,"y":4}]       7                     2019-08-27T00:32:58.105609
 ```
 
 # Why?
