@@ -10,14 +10,16 @@ BEGIN;
 CREATE TABLE det (
     identity
   , input
+  , input_types
   , output
+  , output_type
   , date
 );
 
-INSERT INTO det (identity, input, output, date)
+INSERT INTO det (identity, input, input_types, output, output_type, date)
 VALUES
-  ('hello_world', '', 'Hello World', '2019-01-01 12:00:00')
-, ('bye_world', '', 'Goodbye World', '2019-01-01 12:00:00')
+  ('hello', 'Matt', 'string', 'Hello Matt', 'string', '2019-01-01 12:00:00')
+, ('bye', '42', 'integer', 'Bye 42', 'string', '2019-01-01 12:00:00')
 ;
 
 -- Pretty print

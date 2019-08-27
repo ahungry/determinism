@@ -24,15 +24,15 @@ You will be able to review the results of code execution in a format
 such as:
 
 ```sh
+echo -e '.headers on\n.mode column\n.width 37 20 54 10 30\nselect * from det limit 5 offset 6;' | sqlite3 determinism.db
+identity                               input                 input_types                                             output      output_type                     date
+-------------------------------------  --------------------  ------------------------------------------------------  ----------  ------------------------------  --------------------------
+determinism.core$javascript_like_plus  [1,2]                 ["class java.lang.Long","class java.lang.Long"]         3           "class java.lang.Long"          2019-08-27T00:46:35.388919
+determinism.core$javascript_like_plus  [3,4]                 ["class java.lang.Long","class java.lang.Long"]         7           "class java.lang.Long"          2019-08-27T00:46:35.408665
+determinism.core$javascript_like_plus  ["x","y"]             ["class java.lang.String","class java.lang.String"]     "xy"        "class java.lang.String"        2019-08-27T00:46:35.425899
+determinism.core$javascript_like_plus  [2,"y"]               ["class java.lang.Long","class java.lang.String"]       "2y"        "class java.lang.String"        2019-08-27T00:46:35.436628
+determinism.core$javascript_like_plus  ["x",3]               ["class java.lang.String","class java.lang.Long"]       "x3"        "class java.lang.String"        2019-08-27T00:46:35.450455
 echo -e '.headers on\n.mode column\n.width 40 20 20 30\nselect * from det;' | sqlite3 determinism.db
-identity                                  input                 output                date
-----------------------------------------  --------------------  --------------------  ------------------------------
-hello_world                                                     Hello World           2019-01-01 12:00:00
-bye_world                                                       Goodbye World         2019-01-01 12:00:00
-determinism.core$add_1@71e0e636           [0]                   1                     2019-08-27T00:32:58.063620
-determinism.core$add_1@71e0e636           [1]                   2                     2019-08-27T00:32:58.076790
-determinism.core$summer@419ddc74          [{"x":1,"y":2}]       3                     2019-08-27T00:32:58.092482
-determinism.core$summer@419ddc74          [{"x":3,"y":4}]       7                     2019-08-27T00:32:58.105609
 ```
 
 # Why?

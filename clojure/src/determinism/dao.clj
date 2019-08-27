@@ -26,9 +26,11 @@
 
 (defn get-all [] (q ["select * from det"]))
 
-(defn add [{:keys [identity input output]}]
+(defn add [{:keys [identity input input-types output output-type]}]
   (jdbc/insert! db "det"
                 {:identity identity
                  :input (cheshire/generate-string input)
+                 :input_types (cheshire/generate-string input-types)
                  :output (cheshire/generate-string output)
+                 :output_type (cheshire/generate-string output-type)
                  :date (time-now)}))

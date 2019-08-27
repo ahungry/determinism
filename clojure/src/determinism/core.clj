@@ -18,12 +18,14 @@
   "Wrap I/O monitoring around a given function."
   [f]
   (fn [& r]
-    (let [info {:identity (identity f)
+    (let [result (apply f r)
+          info {:identity (identity f)
                 :input r
-                :input-types (map type r)
-                :output (apply f r)}]
+                :input-types (doall (map str (map type r)))
+                :output result
+                :output-type (str (type result))}]
       (swap! *proxy-records conj info)
-      (:output info))))
+      result)))
 
 (defn add-1 [n] (+ 1 n))
 (def add-1 (proxy-fn add-1))
@@ -33,6 +35,23 @@
 (def summer (proxy-fn summer))
 
 (doall (map summer [{:x 1 :y 2} {:x 3 :y 4}]))
+
+(defn javascript-like-plus
+  "Given an X and Y, join strings or add them."
+  [x y]
+  (if (or (string? x)
+          (string? y))
+    (str x y)
+    (+ x y)))
+
+(def javascript-like-plus (proxy-fn javascript-like-plus))
+
+(do
+  (javascript-like-plus 1 2)
+  (javascript-like-plus 3 4)
+  (javascript-like-plus "x" "y")
+  (javascript-like-plus 2 "y")
+  (javascript-like-plus "x" 3))
 
 (record-flush)
 
