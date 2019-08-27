@@ -3,6 +3,7 @@
    [clojure.tools.logging :as log]
    [clojure.java.jdbc :as jdbc]
    [java-time :as t]
+   [cheshire.core :as cheshire]
    )
   (:gen-class))
 
@@ -28,6 +29,6 @@
 (defn add [{:keys [identity input output]}]
   (jdbc/insert! db "det"
                 {:identity identity
-                 :input input
-                 :output output
+                 :input (cheshire/generate-string input)
+                 :output (cheshire/generate-string output)
                  :date (time-now)}))

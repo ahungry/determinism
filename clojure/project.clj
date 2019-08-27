@@ -12,6 +12,9 @@
                  [org.clojure/java.jdbc "0.3.5"]
                  [org.xerial/sqlite-jdbc "3.7.2"]
 
+                 ;; Parsing related
+                 [cheshire "5.9.0"]
+
                  ;; Logging related
                  [ch.qos.logback/logback-classic "1.2.3"]
                  [org.clojure/tools.logging "0.5.0"]

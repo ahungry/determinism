@@ -10,7 +10,9 @@
 (defn record-flush
   "Dump the records to some storage."
   []
-  (doall (map (fn [m] (log/info m)) @*proxy-records)))
+  (doall (map (fn [m]
+                (log/info m)
+                (dao/add m)) @*proxy-records)))
 
 (defn proxy-fn
   "Wrap I/O monitoring around a given function."
