@@ -34,7 +34,6 @@ determinism.core$javascript_like_plus  [3,4]                 ["class java.lang.L
 determinism.core$javascript_like_plus  ["x","y"]             ["class java.lang.String","class java.lang.String"]     "xy"        "class java.lang.String"        2019-08-27T00:46:35.425899
 determinism.core$javascript_like_plus  [2,"y"]               ["class java.lang.Long","class java.lang.String"]       "2y"        "class java.lang.String"        2019-08-27T00:46:35.436628
 determinism.core$javascript_like_plus  ["x",3]               ["class java.lang.String","class java.lang.Long"]       "x3"        "class java.lang.String"        2019-08-27T00:46:35.450455
-echo -e '.headers on\n.mode column\n.width 40 20 20 30\nselect * from det;' | sqlite3 determinism.db
 ```
 
 # Why?

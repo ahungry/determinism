@@ -2,6 +2,7 @@
   (:require
    [clojure.tools.logging :as log]
    [determinism.dao :as dao]
+   [determinism.scoper :as scoper]
    )
   (:gen-class))
 
@@ -27,12 +28,29 @@
       (swap! *proxy-records conj info)
       result)))
 
+;; TODO: Get this global wrapper code working...pretty close I think.
+(defn proxy-def
+  "Redefine a function with the wrapper around it."
+  [[k v]]
+  (identity
+   `(def ~k ~(proxy-fn (deref v)))))
+
+(defn proxy-all-by-re [re]
+  (->> (scoper/everything-filtered re)
+       (map proxy-def)
+       doall))
+
+(proxy-all-by-re #"determinism")
+
 (defn add-1 [n] (+ 1 n))
-(def add-1 (proxy-fn add-1))
+
+(proxy-def ['add-1 #'determinism.core/add-1])
+
+;; (def add-1 (proxy-fn add-1))
 (doall (map add-1 (range 2)))
 
 (defn summer [{:keys [x y]}] (+ x y))
-(def summer (proxy-fn summer))
+;; (def summer (proxy-fn summer))
 
 (doall (map summer [{:x 1 :y 2} {:x 3 :y 4}]))
 
@@ -44,7 +62,7 @@
     (str x y)
     (+ x y)))
 
-(def javascript-like-plus (proxy-fn javascript-like-plus))
+;; (def javascript-like-plus (proxy-fn javascript-like-plus))
 
 (do
   (javascript-like-plus 1 2)
@@ -54,12 +72,6 @@
   (javascript-like-plus "x" 3))
 
 (record-flush)
-
-;; (->> (all-ns) (mapcat ns-publics) (rand-nth) key)
-
-;; (->> (identity *ns*) (ns-publics))
-
-;; (all-ns)
 
 (defn -main
   "I don't do a whole lot ... yet."
