@@ -10,9 +10,11 @@ the output the function generated.
 
 # Idea
 
-Given some functions defined as such:
+Given you had a codebase defined as such:
 
 ```clojure
+(ns determinism.stub)
+
 (defn javascript-like-plus
   "Given an X and Y, join strings or add them."
   [x y]
@@ -20,20 +22,68 @@ Given some functions defined as such:
           (string? y))
     (str x y)
     (+ x y)))
+
+(defn main []
+  (javascript-like-plus 1 2)
+  (javascript-like-plus 3 4)
+  (javascript-like-plus "x" "y")
+  (javascript-like-plus 2 "y")
+  (javascript-like-plus "x" 3))
+```
+
+and you wrapped it in this way:
+
+```clojure
+  (proxy/all-by-re #"determinism\.stub")
+  (stub/main)
+  (proxy/record-flush)
 ```
 
 You will be able to review the results of code execution in a format
 such as:
 
 ```sh
-echo -e '.headers on\n.mode column\n.width 37 20 54 10 30\nselect * from det limit 5 offset 6;' | sqlite3 determinism.db
-identity                               input                 input_types                                             output      output_type                     date
--------------------------------------  --------------------  ------------------------------------------------------  ----------  ------------------------------  --------------------------
-determinism.core$javascript_like_plus  [1,2]                 ["class java.lang.Long","class java.lang.Long"]         3           "class java.lang.Long"          2019-08-27T00:46:35.388919
-determinism.core$javascript_like_plus  [3,4]                 ["class java.lang.Long","class java.lang.Long"]         7           "class java.lang.Long"          2019-08-27T00:46:35.408665
-determinism.core$javascript_like_plus  ["x","y"]             ["class java.lang.String","class java.lang.String"]     "xy"        "class java.lang.String"        2019-08-27T00:46:35.425899
-determinism.core$javascript_like_plus  [2,"y"]               ["class java.lang.Long","class java.lang.String"]       "2y"        "class java.lang.String"        2019-08-27T00:46:35.436628
-determinism.core$javascript_like_plus  ["x",3]               ["class java.lang.String","class java.lang.Long"]       "x3"        "class java.lang.String"        2019-08-27T00:46:35.450455
+   identity = determinism.stub$javascript_like_plus@17796487
+      input = [1,2]
+input_types = ["class java.lang.Long","class java.lang.Long"]
+     output = 3
+output_type = "class java.lang.Long"
+       date = 2019-08-28T00:46:25.672520
+
+   identity = determinism.stub$javascript_like_plus@17796487
+      input = [3,4]
+input_types = ["class java.lang.Long","class java.lang.Long"]
+     output = 7
+output_type = "class java.lang.Long"
+       date = 2019-08-28T00:46:25.825044
+
+   identity = determinism.stub$javascript_like_plus@17796487
+      input = ["x","y"]
+input_types = ["class java.lang.String","class java.lang.String"]
+     output = "xy"
+output_type = "class java.lang.String"
+       date = 2019-08-28T00:46:25.834660
+
+   identity = determinism.stub$javascript_like_plus@17796487
+      input = [2,"y"]
+input_types = ["class java.lang.Long","class java.lang.String"]
+     output = "2y"
+output_type = "class java.lang.String"
+       date = 2019-08-28T00:46:25.844010
+
+   identity = determinism.stub$javascript_like_plus@17796487
+      input = ["x",3]
+input_types = ["class java.lang.String","class java.lang.Long"]
+     output = "x3"
+output_type = "class java.lang.String"
+       date = 2019-08-28T00:46:25.853266
+
+   identity = determinism.stub$main@465ead
+      input = null
+input_types = []
+     output = "x3"
+output_type = "class java.lang.String"
+       date = 2019-08-28T00:46:25.871784
 ```
 
 # Why?
