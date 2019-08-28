@@ -694,4 +694,3 @@ org.clojure/tools.namespace
 org.clojure/tools.nrepl
 org.clojure/tools.reader
 org.xerial/sqlite-jdbc
-org.tcrawley/dynapath
