@@ -1,6 +1,10 @@
 (ns determinism.core
   (:require
    [clojure.tools.logging :as log]
+   [clojure.test :as t]
+   [clojure.spec.alpha :as s]
+   [clojure.spec.gen.alpha :as gen]
+   [clojure.spec.test.alpha :as stest]
    [determinism.dao :as dao]
    [determinism.scoper :as scoper]
    )
@@ -29,22 +33,38 @@
       result)))
 
 ;; TODO: Get this global wrapper code working...pretty close I think.
-(defn proxy-def
-  "Redefine a function with the wrapper around it."
+(defn proxy-def-x
+  "Redefine a function with the wrapper around it. k = Symbol, v = Var to Fn."
   [[k v]]
-  (identity
-   `(def ~k ~(proxy-fn (deref v)))))
+  (binding [*ns* 'determinism.dao]
+    (eval
+     `(def ~k ~(proxy-fn (deref v))))))
+
+(defn proxy-def
+  "Redefine a function with the wrapper around it. k = Symbol, v = Var to Fn."
+  [v]
+  (prn "Wrapping for determinism: " (identity v))
+  (alter-var-root v proxy-fn))
+
+(defn inner-fn? [x]
+  (and (= clojure.lang.Var (type x))
+       (t/function? (deref x))))
 
 (defn proxy-all-by-re [re]
   (->> (scoper/everything-filtered re)
+       (map #(get % 1))
+       (filter inner-fn?)
        (map proxy-def)
-       doall))
+       doall
+       ))
 
 (proxy-all-by-re #"determinism")
 
 (defn add-1 [n] (+ 1 n))
 
 (proxy-def ['add-1 #'determinism.core/add-1])
+
+(proxy-def ['add #'determinism.dao/add])
 
 ;; (def add-1 (proxy-fn add-1))
 (doall (map add-1 (range 2)))
