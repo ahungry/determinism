@@ -53,4 +53,6 @@ Copyright © 2019 Matthew Carter <m@ahungry.com>
 # License
 
 Distributed under the GNU Affero General Public License either version 3.0 or (at
-your option) any later version.
+your option) any later version (AGPLv3).
+
+See [LICENSE.txt](https://github.com/ahungry/determinism/blob/master/LICENSE.txt) for details and exceptions.
