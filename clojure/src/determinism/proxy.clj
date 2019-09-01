@@ -18,16 +18,19 @@
 
 (defn proxy-fn
   "Wrap I/O monitoring around a given function."
-  [f]
-  (fn [& r]
-    (let [result (apply f r)
-          info {:identity (identity f)
-                :input r
-                :input-types (str (into [] (map type r)))
-                :output result
-                :output-type (str (type result))}]
-      (swap! *proxy-records conj info)
-      result)))
+  [recall-identity]
+  (fn
+    [f]
+    (fn [& r]
+      (let [result (apply f r)
+            info {:identity recall-identity
+                  ;; (identity f)
+                  :input r
+                  :input-types (str (into [] (map type r)))
+                  :output result
+                  :output-type (str (type result))}]
+        (swap! *proxy-records conj info)
+        result))))
 
 ;; TODO: Get this global wrapper code working...pretty close I think.
 (defn proxy-def-x
@@ -41,7 +44,7 @@
   "Redefine a function with the wrapper around it. k = Symbol, v = Var to Fn."
   [v]
   (prn "Wrapping for determinism: " (identity v))
-  (alter-var-root v proxy-fn))
+  (alter-var-root v (proxy-fn v)))
 
 (defn all-by-re [re]
   (->> (scoper/everything-filtered re)

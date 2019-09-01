@@ -96,6 +96,10 @@ statically typed language), as the function signatures will be able to
 be displayed based on the real data received at runtime, not promises
 the developer has made to the compiler.
 
+# todo
+
+- Implement replay feature
+
 ## Copyright
 
 Copyright © 2019 Matthew Carter <m@ahungry.com>
