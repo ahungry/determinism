@@ -43,47 +43,13 @@ You will be able to review the results of code execution in a format
 such as:
 
 ```sh
-   identity = determinism.stub$javascript_like_plus@17796487
-      input = [1,2]
-input_types = ["class java.lang.Long","class java.lang.Long"]
-     output = 3
-output_type = "class java.lang.Long"
-       date = 2019-08-28T00:46:25.672520
-
-   identity = determinism.stub$javascript_like_plus@17796487
-      input = [3,4]
-input_types = ["class java.lang.Long","class java.lang.Long"]
-     output = 7
-output_type = "class java.lang.Long"
-       date = 2019-08-28T00:46:25.825044
-
-   identity = determinism.stub$javascript_like_plus@17796487
-      input = ["x","y"]
-input_types = ["class java.lang.String","class java.lang.String"]
-     output = "xy"
-output_type = "class java.lang.String"
-       date = 2019-08-28T00:46:25.834660
-
-   identity = determinism.stub$javascript_like_plus@17796487
-      input = [2,"y"]
-input_types = ["class java.lang.Long","class java.lang.String"]
-     output = "2y"
-output_type = "class java.lang.String"
-       date = 2019-08-28T00:46:25.844010
-
-   identity = determinism.stub$javascript_like_plus@17796487
-      input = ["x",3]
-input_types = ["class java.lang.String","class java.lang.Long"]
-     output = "x3"
-output_type = "class java.lang.String"
-       date = 2019-08-28T00:46:25.853266
-
-   identity = determinism.stub$main@465ead
-      input = null
-input_types = []
-     output = "x3"
-output_type = "class java.lang.String"
-       date = 2019-08-28T00:46:25.871784
+identity                                  input       input_types                         output      output_type               date
+----------------------------------------  ----------  ----------------------------------  ----------  ------------------------  --------------------------
+#'determinism.stub/javascript-like-plus   [1 2]       [java.lang.Long java.lang.Long]     3           class java.lang.Long      2019-09-01T00:48:03.820992
+#'determinism.stub/javascript-like-plus   [3 4]       [java.lang.Long java.lang.Long]     7           class java.lang.Long      2019-09-01T00:48:03.894416
+#'determinism.stub/javascript-like-plus   ["x" "y"]   [java.lang.String java.lang.String  xy          class java.lang.String    2019-09-01T00:48:03.903399
+#'determinism.stub/javascript-like-plus   [2 "y"]     [java.lang.Long java.lang.String]   2y          class java.lang.String    2019-09-01T00:48:03.912170
+#'determinism.stub/javascript-like-plus   ["x" 3]     [java.lang.String java.lang.Long]   x3          class java.lang.String    2019-09-01T00:48:03.921038
 ```
 
 # Why?
