@@ -26,11 +26,28 @@
 
 (defn get-all [] (q ["select * from det"]))
 
+(defn maybe-seq [x]
+  (if (seq? x)
+    (into [] x)
+    x))
+
+(defn serializer [x]
+  (->> x
+       ;; cheshire/generate-string
+       ;; cheshire/parse-string
+       maybe-seq
+       str))
+
 (defn add [{:keys [identity input input-types output output-type]}]
   (jdbc/insert! db "det"
                 {:identity identity
-                 :input (cheshire/generate-string input)
-                 :input_types (cheshire/generate-string input-types)
-                 :output (cheshire/generate-string output)
-                 :output_type (cheshire/generate-string output-type)
+                 :input
+                 (serializer input)
+                 :input_types
+                 (serializer input-types)
+                 :output
+                 (serializer output)
+                 :output_type
+                 (serializer output-type)
+                 ;; (cheshire/generate-string output-type)
                  :date (time-now)}))

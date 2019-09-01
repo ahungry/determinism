@@ -23,7 +23,7 @@
     (let [result (apply f r)
           info {:identity (identity f)
                 :input r
-                :input-types (doall (map str (map type r)))
+                :input-types (str (into [] (map type r)))
                 :output result
                 :output-type (str (type result))}]
       (swap! *proxy-records conj info)
