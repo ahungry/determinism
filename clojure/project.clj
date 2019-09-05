@@ -1,6 +1,6 @@
-(defproject determinism "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject determinism "0.0.1"
+  :description "Library for instrumenting a codebase in a unique way."
+  :url "https://github.com/ahungry/determinism"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [
@@ -24,4 +24,5 @@
                  ]
   :main ^:skip-aot determinism.core
   :target-path "target/%s"
+  :repl-optoins {:init-ns determinism.core}
   :profiles {:uberjar {:aot :all}})
