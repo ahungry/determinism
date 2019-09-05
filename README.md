@@ -1,5 +1,8 @@
 # determinism
 
+NOTE: This is ALPHA level software.  It's available to garner interest
+and such, but please understand there is a lot more to do on this.
+
 > Determinism is the philosophical belief that all events are determined
 > completely by previously existing causes.
 
@@ -70,6 +73,12 @@ I/O matches known I/O as such:
  "#'determinism.stub/main" {:pass 1}}
 ```
 
+This should end up acting as a live-check equivalent to unit testing
+or spec based approaches (the more you instrument your code and send
+the results to the database at ~/.local/share/ahungry-determinism.db,
+the more the system can assist in regression-proofing and enabling a
+faster development workflow).
+
 ## Inspection
 
 You can use the help module to pull in more information the system has
@@ -105,28 +114,17 @@ query for matching functions:
  {:identity "#'determinism.stub/main", :types ([])})
 ```
 
-
-# Why?
-
-Such a feature would allow for replaying of previous inputs against a
-code base which changed the individual implementation of some
-functions, as well as allowing a function to provide additional
-information regarding expected types and outputs (even if not using a
-statically typed language), as the function signatures will be able to
-be displayed based on the real data received at runtime, not promises
-the developer has made to the compiler.
-
-# todo
-
-- Implement replay feature
-
-## Copyright
+# License
 
 Copyright © 2019 Matthew Carter <m@ahungry.com>
 
-# License
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License 2.0 which is available at
+http://www.eclipse.org/legal/epl-2.0.
 
-Distributed under the GNU Affero General Public License either version 3.0 or (at
-your option) any later version (AGPLv3).
-
-See [LICENSE.txt](https://github.com/ahungry/determinism/blob/master/LICENSE.txt) for details and exceptions.
+This Source Code may also be made available under the following Secondary
+Licenses when the conditions for such availability set forth in the Eclipse
+Public License, v. 2.0 are satisfied: GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or (at your
+option) any later version, with the GNU Classpath Exception which is available
+at https://www.gnu.org/software/classpath/license.html.
