@@ -52,6 +52,60 @@ identity                                  input       input_types               
 #'determinism.stub/javascript-like-plus   ["x" 3]     [java.lang.String java.lang.Long]   x3          class java.lang.String    2019-09-01T00:48:03.921038
 ```
 
+# Features
+
+## Replayability
+
+In the codebase, you can "replay" previous results and ensure the
+I/O matches known I/O as such:
+
+```clojure
+(require '[determinism.replay :as replay])
+(replay/replay-all)
+
+;; Evaluates to:
+{"#'determinism.stub/bar-map" {:pass 1},
+ "#'determinism.stub/foo-map" {:pass 1},
+ "#'determinism.stub/javascript-like-plus" {:pass 5},
+ "#'determinism.stub/main" {:pass 1}}
+```
+
+## Inspection
+
+You can use the help module to pull in more information the system has
+recorded or knows about your data:
+
+```clojure
+(require '[determinism.help :as help])
+(help/get-types #'determinism.stub/javascript-like-plus)
+
+;; Will evaluate to (all the known input combinations of types):
+([java.lang.Long java.lang.Long]
+ [java.lang.Long java.lang.String]
+ [java.lang.String java.lang.Long]
+ [java.lang.String java.lang.String])
+```
+
+You can also pull in a wide set of type information based on a regex
+query for matching functions:
+
+```clojure
+(help/get-types-apropos "determinism.stub")
+
+;; Evals to:
+({:identity "#'determinism.stub/javascript-like-plus",
+  :types ([java.lang.Long java.lang.Long]
+          [java.lang.Long java.lang.String]
+          [java.lang.String java.lang.Long]
+          [java.lang.String java.lang.String])}
+ {:identity "#'determinism.stub/foo-map",
+  :types ([clojure.lang.PersistentArrayMap])}
+ {:identity "#'determinism.stub/bar-map",
+  :types ([clojure.lang.PersistentArrayMap])}
+ {:identity "#'determinism.stub/main", :types ([])})
+```
+
+
 # Why?
 
 Such a feature would allow for replaying of previous inputs against a

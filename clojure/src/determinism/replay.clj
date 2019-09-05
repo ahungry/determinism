@@ -3,7 +3,6 @@
    [clojure.test :as t]
    [clojure.repl :refer :all]
    [clojure.tools.logging :as log]
-   [xdg-rc.core :as xdg-rc]
    [determinism.dao :as dao]
    )
   (:gen-class))

@@ -9,10 +9,17 @@
    )
   (:gen-class))
 
+(defn data-dir-db []
+  (str (xdg-rc/get-xdg-data-dir) "/ahungry-determinism.db"))
+
 (def db
   {:classname "org.sqlite.JDBC"
    :subprotocol "sqlite"
-   :subname "../determinism.db"})
+   :subname (data-dir-db)})
+
+(defn make-db []
+  (jdbc/execute! db ["CREATE TABLE IF NOT EXISTS det (
+identity, input, input_types, output, output_type, date);"]))
 
 (defn time-now []
   (str (t/local-date-time)))
@@ -70,4 +77,9 @@
   (->> (search-by-name s)
        (map :input_types)
        (map read-string)
+       distinct))
+
+(defn apropos-identities [s]
+  (->> (search-by-name s)
+       (map :identity)
        distinct))
