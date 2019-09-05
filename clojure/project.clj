@@ -1,4 +1,4 @@
-(defproject determinism "0.0.1"
+(defproject ahungry/determinism "0.0.2"
   :description "Library for instrumenting a codebase in a unique way."
   :url "https://github.com/ahungry/determinism"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
