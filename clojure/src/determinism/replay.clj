@@ -14,6 +14,16 @@
   (and (var? x)
        (t/function? (deref x))))
 
+(defn is-callable?
+  "See if our stringly IDENTIFIER can be called with some coercion."
+  [identifier]
+  (try
+    (let [id (if (string? identifier)
+               (read-string identifier)
+               identifier)]
+      (is-fn? (eval id)))
+    (catch Exception e nil)))
+
 (defn inc-or-one [n] (if (nil? n) 1 (inc n)))
 
 (defn read-string-or-not [s]
@@ -31,7 +41,8 @@
         id (read-string identity)
         f (deref (eval id))
         res (apply f in)]
-    (if (= out res)
+    (if (or (= out res)
+            (= output res))
       (swap! *report update-in [identity :pass] inc-or-one)
       (do
         (prn "Failed on: " out res)
@@ -40,21 +51,27 @@
     ))
 
 (defn execute-previous-inputs [id]
-  (reset! *report {})
   (->> (dao/search-by-name (str id))
        (map execute-previous-input)
-       )
-  ;; @*report
-  )
+       doall)
+  @*report)
 
 (defn replay
   "Given an IDENTIFIER, replay the known inputs and see if they produce
   the same outputs."
   [identifier]
-  (let [id (if (string? identifier)
-             (read-string identifier)
-             identifier)]
-    (when-not (is-fn? id)
-      (throw (Throwable. "That IDENTIFIER does not exist!")))
-    (prn "here..")
-    (execute-previous-inputs identifier)))
+  (when-not (is-callable? identifier)
+    (throw (Throwable. "That IDENTIFIER does not exist as a callable IFn!")))
+  (execute-previous-inputs identifier))
+
+(defn replay-all
+  "Attempt to replay all known and existent functions/symbols."
+  []
+  (reset! *report {})
+  (->> (dao/get-all)
+       (map :identity)
+       distinct
+       (filter is-callable?)
+       (map replay)
+       doall)
+  @*report)
