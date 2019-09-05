@@ -8,6 +8,9 @@
                  [org.clojure/clojure "1.10.0"]
                  [clojure.java-time "0.3.2"]
 
+                 ;; Config related
+                 [ahungry/xdg-rc "0.0.4"]
+
                  ;; Database related
                  [org.clojure/java.jdbc "0.3.5"]
                  [org.xerial/sqlite-jdbc "3.7.2"]

@@ -1,9 +1,11 @@
 (ns determinism.dao
   (:require
+   [clojure.repl :refer :all]
    [clojure.tools.logging :as log]
    [clojure.java.jdbc :as jdbc]
    [java-time :as t]
    [cheshire.core :as cheshire]
+   [xdg-rc.core :as xdg-rc]
    )
   (:gen-class))
 
@@ -19,7 +21,7 @@
   "Wrapper for basic querying, with logging incorporated.
   SS = jdbc interface (vec: sql + args)."
   [ss]
-  (let [result (apply jdbc/query db ss)]
+  (let [result (apply jdbc/query db [ss])]
     (log/debug ss)
     (log/debug result)
     result))
@@ -51,3 +53,21 @@
                  (serializer output-type)
                  ;; (cheshire/generate-string output-type)
                  :date (time-now)}))
+
+(defn re-make-term [term] #(re-find (re-pattern (str "(?i).*" term ".*")) %))
+
+(defn search-by-name [term]
+  (->> (get-all)
+       (filter #(re-find (re-pattern (str "(?i).*" term ".*")) (:identity %)))))
+
+(defn get-by-identity [s]
+  (q ["select * from det where identity = ?" s]))
+
+(defn test-1 []
+  (get-by-identity "#'determinism.stub/javascript-like-plus"))
+
+(defn get-inputs-by-name [s]
+  (->> (search-by-name s)
+       (map :input_types)
+       (map read-string)
+       distinct))
