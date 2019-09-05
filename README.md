@@ -3,6 +3,9 @@
 NOTE: This is ALPHA level software.  It's available to garner interest
 and such, but please understand there is a lot more to do on this.
 
+[![Clojars Project](https://img.shields.io/clojars/v/ahungry/determinism.svg)](https://clojars.org/ahungry/determinism)
+[![cljdoc badge](https://cljdoc.org/badge/ahungry/determinism)](https://cljdoc.org/d/ahungry/determinism)
+
 > Determinism is the philosophical belief that all events are determined
 > completely by previously existing causes.
 
@@ -10,6 +13,22 @@ This aims to be a development tool for programming, where a code base
 may be targetted for monitoring functions, and as each function is
 hit, it will record the data the function received (input) as well as
 the output the function generated.
+
+# Installation
+
+Just add into your project.clj or deps:
+
+[![Clojars Project](http://clojars.org/ahungry/determinism/latest-version.svg)](http://clojars.org/ahungry/determinism)
+
+Then when you want to use it, import it as:
+
+```clojure
+(ns your-package
+  (:require [determinism.help :as help]
+            [determinism.dao :as dao]
+            [determinism.proxy :as proxy]
+            [determinism.replay :as replay]))
+```
 
 # Idea
 
