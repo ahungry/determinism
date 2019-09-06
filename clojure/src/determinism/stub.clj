@@ -22,10 +22,14 @@
   (-> (foo-map m)
       (update-in [:foo :bar] inc)))
 
+(defn hof-sample [f g]
+  (fn [x] (f (g x))))
+
 (defn main []
   (javascript-like-plus 1 2)
   (javascript-like-plus 3 4)
   (javascript-like-plus "x" "y")
   (javascript-like-plus 2 "y")
   (javascript-like-plus "x" 3)
+  (hof-sample inc inc)
   (bar-map {:foo {:bar 5 :baz 9}}))
