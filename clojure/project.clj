@@ -24,5 +24,5 @@
                  ]
   :main ^:skip-aot determinism.core
   :target-path "target/%s"
-  :repl-optoins {:init-ns determinism.core}
+  :repl-options {:init-ns determinism.core}
   :profiles {:uberjar {:aot :all}})
